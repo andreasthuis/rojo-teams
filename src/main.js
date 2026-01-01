@@ -1,7 +1,9 @@
-const { app, BrowserWindow } = require("electron");
+const { app, ipcMain, BrowserWindow } = require("electron");
+const path = require("path");
+const fs = require("fs");
 
 if (process.platform === "linux") {
-  app.commandLine.appendSwitch('enable-transparent-visuals');
+  app.commandLine.appendSwitch("enable-transparent-visuals");
   app.disableHardwareAcceleration();
 }
 
@@ -14,8 +16,9 @@ const createWindow = () => {
     resizable: true,
     hasShadow: false,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   });
 
@@ -26,4 +29,36 @@ app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();
+});
+
+ipcMain.on("window-close", (event) => {
+  BrowserWindow.fromWebContents(event.sender).close();
+});
+
+ipcMain.on("window-minimize", (event) => {
+  BrowserWindow.fromWebContents(event.sender).minimize();
+});
+
+ipcMain.handle("menus:get", () => {
+  const appPath = app.getAppPath();
+
+  const menusPath = path.join(appPath, "src", "menus");
+
+  if (!fs.existsSync(menusPath)) {
+    console.error("Menus folder not found:", menusPath);
+    return [];
+  }
+
+  return fs.readdirSync(menusPath).filter((f) => f.endsWith(".html"));
+});
+
+ipcMain.handle("menus:load", (_, file) => {
+  const appPath = app.getAppPath();
+  const menusPath = path.join(appPath, "src", "menus", file);
+
+  if (!fs.existsSync(menusPath)) {
+    throw new Error("Menu file not found: " + file);
+  }
+
+  return fs.readFileSync(menusPath, "utf8");
 });

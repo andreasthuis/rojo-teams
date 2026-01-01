@@ -5,12 +5,12 @@
   --border-soft: rgba(255, 255, 255, 0.04);
   --text: #eaeaea;
   --muted: #a0a0a0;
-  --accent: #4f8cff;
+  --accent: #335fff;
 }
 
 html {
   background: transparent !important;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 body {
@@ -21,8 +21,8 @@ body {
 
   height: 100vh;
   width: 100vw;
-  
-  border-radius: 30px; 
+
+  border-radius: 30px;
 
   overflow: hidden !important;
   display: flex;
@@ -47,6 +47,18 @@ body {
   border-bottom: 1px solid var(--border-soft);
 }
 
+#nav {
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+
+  height: 40px;
+
+  user-select: none;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+
 .app-name {
   font-size: 14px;
   font-weight: 800;
@@ -61,7 +73,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  -webkit-app-region: no-drag;
+  -webkit-app-region: drag;
 }
 
 #titlebar li {
@@ -72,7 +84,46 @@ body {
   align-items: center;
   transition: background 0.2s;
   cursor: pointer;
+  -webkit-app-region: no-drag;
 }
+
+.nav-btn {
+  flex: 1 1 0;
+  min-width: 64px;
+  max-width: 160px;
+
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: 0px solid transparent;
+
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border 0.15s;
+
+  -webkit-app-region: no-drag;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+.nav-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  border-color: var(--border);
+}
+
+
 
 #titlebar p {
   margin: 0;
@@ -93,7 +144,7 @@ body {
   background: #e81123;
 }
 
-.app {
+#app {
   padding: 24px;
   flex: 1;
   overflow-y: auto;

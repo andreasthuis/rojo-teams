@@ -18,7 +18,6 @@ body {
   background: transparent;
   color: var(--text);
   font-family: system-ui, sans-serif;
-
   height: 100vh;
   width: 100vw;
 
@@ -130,8 +129,13 @@ body {
   font-size: 11px;
 }
 
+#max-btn p {
+  transform: translateY(-2px);
+  font-size: 14px;
+}
 #min-btn p {
   transform: translateY(-1px);
+  font-size: 14px;
 }
 #close-btn p {
   font-size: 14px;
@@ -217,4 +221,8 @@ h1 {
 }
 .switch input:checked + .slider::before {
   transform: translateX(20px);
+}
+
+body.maximized {
+  border-radius: 0px !important;
 }

@@ -1,0 +1,4 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/andreasthuis/my-backend.git
+	branch = main

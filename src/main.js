@@ -1,6 +1,7 @@
-const { app, ipcMain, BrowserWindow } = require("electron");
+const { app, ipcMain, shell, BrowserWindow } = require("electron");
 const path = require("path");
 const fs = require("fs");
+const crypto = require("crypto");
 
 if (process.platform === "linux") {
   app.commandLine.appendSwitch("enable-transparent-visuals");
@@ -79,4 +80,38 @@ ipcMain.handle("menus:load", (_, file) => {
   }
 
   return fs.readFileSync(menusPath, "utf8");
+});
+
+app.setAsDefaultProtocolClient("myapp");
+
+app.on("open-url", (event, url) => {
+  event.preventDefault();
+  // Example: myapp://auth?code=ABC123&state=XYZ
+  console.log("OAuth callback URL:", url);
+  const parsed = new URL(url);
+  const code = parsed.searchParams.get("code");
+  const state = parsed.searchParams.get("state");
+
+  // Send code to renderer or handle in main
+  console.log("Code:", code, "State:", state);
+});
+
+function loginWithRoblox() {
+  const clientId = "YOUR_CLIENT_ID";
+  const redirectUri = encodeURIComponent("myapp://auth");
+  const state = crypto.randomUUID();
+
+  const authUrl = 
+    `https://apis.roblox.com/oauth/v1/authorize` +
+    `?client_id=${clientId}` +
+    `&response_type=code` +
+    `&scope=openid%20profile` +
+    `&redirect_uri=${redirectUri}` +
+    `&state=${state}`;
+
+  shell.openExternal(authUrl);
+}
+
+ipcMain.on("login-with-roblox", () => {
+  loginWithRoblox();
 });

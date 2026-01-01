@@ -28,7 +28,8 @@
     "css-loader": "^6.11.0",
     "electron": "39.2.7",
     "node-loader": "^2.1.0",
-    "style-loader": "^3.3.4"
+    "style-loader": "^3.3.4",
+    "wrangler": "^4.54.0"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",

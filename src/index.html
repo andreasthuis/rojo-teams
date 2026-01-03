@@ -8,23 +8,16 @@
   <body>
     <div id="titlebar">
       <div class="spacer"></div>
-      <div class="app-name">Rojo Teams</div>
+      <div class="app-name">ROJO Teams</div>
       <ul>
         <li id="min-btn"><p>&#8212;</p></li>
         <li id="max-btn"><p>&#9723;</p></li>
         <li id="close-btn" class="close"><p>&#10005;</p></li>
-        <li id="login"><p>Login with roblox</p></li>
       </ul>
     </div>
 
     <div id="nav"></div>
 
     <div id="app"></div>
-
-    <script>
-      document.getElementById("login").addEventListener("click", () => {
-      ipcRenderer.send("login-with-roblox");
-    });
-    </script>
   </body>
 </html>
